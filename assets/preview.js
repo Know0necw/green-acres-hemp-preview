@@ -29,7 +29,9 @@
     "products/lip-balm.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2017/01/20181206_082856.jpg",
     "products/olive-oil.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2018/11/tincture-full-spec.-label.jpg",
     "products/pet.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2024/09/MCT-PET-TINCTURE-scaled.jpg",
-    "products/pump.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/06/2oz-stainless-e1544376650159.jpg",
+    "products/pump.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2017/09/20181206_083616.jpg",
+    "products/pump-4oz.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2017/09/20181206_083616.jpg",
+    "products/pump-8oz.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2019/04/20190411_195332.jpg",
     "products/sandals.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/08/tan-hemp-sandals.jpg",
     "products/tincture.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2019/10/mct-tincture-2.jpg",
     "og.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/2024-FIELD-GROW.jpg"
