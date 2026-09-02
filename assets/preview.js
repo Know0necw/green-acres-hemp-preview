@@ -1,4 +1,40 @@
 (function () {
+  var media = {
+    "brand/logo.png": "https://greenacreshempfarm.com/wp-content/uploads/2017/07/greenacres-hemp-farm-logo-005.png",
+    "images/hero-field.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/2024-FIELD-GROW.jpg",
+    "images/farmstead.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2014/09/green_acres_farm.jpg",
+    "images/hemp-closeup.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/hempplant.jpg",
+    "gallery/drying.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2023/10/20231025_103135-scaled.jpg",
+    "gallery/farmstead.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2014/09/green_acres_farm.jpg",
+    "gallery/field.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/2024-FIELD-GROW.jpg",
+    "gallery/hemp.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/hempplant.jpg",
+    "gallery/sunrise.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/2024-FIELD-GROW-SUNSET-SHERBERT-scaled.jpg",
+    "gallery/valley.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/20160907_095111.jpg",
+    "products/capsules.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2018/11/olive-capsules.jpg",
+    "products/gummies.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2024/09/gummy-bears-scaled.jpg",
+    "products/limbo-2oz-studio.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2024/09/limbo-lotion-scaled.jpg",
+    "products/limbo-3oz-studio.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2017/01/limbo-lotion-3FLoz-Front.png",
+    "products/lip-balm.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2024/09/lip-balm-scaled.jpg",
+    "products/olive-oil.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2024/09/olive-oil-cbd-scaled.jpg",
+    "products/pet.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2024/09/MCT-PET-TINCTURE-scaled.jpg",
+    "products/pump.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2024/09/limbo-lotion-scaled.jpg",
+    "products/sandals.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/08/tan-hemp-sandals.jpg",
+    "products/tincture.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2019/10/MCT-TINCTURE.jpg",
+    "og.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/2024-FIELD-GROW.jpg"
+  };
+  function rewrite(val) {
+    if (!val) return val;
+    var key = val.split("?")[0].replace(/^\.\//, "");
+    return media[key] || val;
+  }
+  document.querySelectorAll("img[src], source[src], link[href], meta[content]").forEach(function (el) {
+    if (el.hasAttribute("src")) el.setAttribute("src", rewrite(el.getAttribute("src")));
+    if (el.hasAttribute("href")) el.setAttribute("href", rewrite(el.getAttribute("href")));
+    if (el.hasAttribute("content")) el.setAttribute("content", rewrite(el.getAttribute("content")));
+  });
+})();
+
+(function () {
   var menuBtn = document.querySelector('button[aria-label="Open menu"]');
   var mobileNav = document.getElementById("mobile-nav");
   if (menuBtn && mobileNav) {
