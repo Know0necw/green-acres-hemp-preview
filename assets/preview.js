@@ -3,6 +3,11 @@
   extra.rel = "stylesheet";
   extra.href = "assets/theme-product.css";
   document.head.appendChild(extra);
+  document.querySelectorAll('a[href*="shop.html#"]').forEach(function (a) {
+    var href = a.getAttribute("href") || "";
+    var hash = href.split("#")[1];
+    if (hash) a.setAttribute("href", "product-" + hash + ".html");
+  });
 })();
 
 (function () {
