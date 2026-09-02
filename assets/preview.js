@@ -35,7 +35,63 @@
 })();
 
 (function () {
-  var menuBtn = document.querySelector('button[aria-label="Open menu"]');
+  var CART_KEY = "ga-preview-cart";
+  var NOTES_KEY = "ga-preview-notes";
+  var ORDERS_KEY = "ga-preview-orders";
+
+  function getCart() {
+    try {
+      var items = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+      return Array.isArray(items) ? items : [];
+    } catch (e) {
+      return [];
+    }
+  }
+  function setCart(items) {
+    localStorage.setItem(CART_KEY, JSON.stringify(items));
+    updateCartButtons();
+  }
+  function cartCount(items) {
+    return (items || getCart()).reduce(function (n, i) { return n + (Number(i.qty) || 0); }, 0);
+  }
+  function cartTotal(items) {
+    return (items || getCart()).reduce(function (n, i) {
+      return n + (Number(i.price) || 0) * (Number(i.qty) || 0);
+    }, 0);
+  }
+  function money(n) {
+    var v = Number(n) || 0;
+    return v % 1 === 0 ? "$" + v : "$" + v.toFixed(2);
+  }
+  function escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function updateCartButtons() {
+    var count = cartCount();
+    document.querySelectorAll('button[aria-label^="Cart"], a[data-cart-link], a[aria-label^="Cart"]').forEach(function (btn) {
+      btn.setAttribute("aria-label", "Cart, " + count + " items");
+      var badge = btn.querySelector(".cart-count");
+      if (!badge) {
+        badge = document.createElement("span");
+        badge.className = "cart-count";
+        btn.appendChild(badge);
+      }
+      if (count > 0) {
+        badge.hidden = false;
+        badge.textContent = String(count);
+      } else {
+        badge.hidden = true;
+        badge.textContent = "";
+      }
+    });
+  }
+
+  var menuBtn = document.querySelector('button[aria-label="Open menu"], button[aria-label="Close menu"]');
   var mobileNav = document.getElementById("mobile-nav");
   if (menuBtn && mobileNav) {
     menuBtn.addEventListener("click", function () {
@@ -47,9 +103,11 @@
 
   document.querySelectorAll('button[aria-label^="Cart"]').forEach(function (btn) {
     btn.addEventListener("click", function () {
-      alert("Prototype preview — checkout is not live. Call 719-206-HEMP to order.");
+      window.location.href = "cart.html";
     });
   });
+
+  updateCartButtons();
 
   var params = new URLSearchParams(window.location.search);
   var cat = params.get("cat");
@@ -81,19 +139,126 @@
     }
   }
 
-  var form = document.querySelector("form");
-  if (form) {
+  document.querySelectorAll('form[data-preview-cart="add"]').forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var fd = new FormData(form);
+      var id = String(fd.get("id") || "");
+      var qty = Math.max(1, parseInt(fd.get("qty"), 10) || 1);
+      var items = getCart();
+      var found = items.filter(function (i) { return i.id === id; })[0];
+      if (found) {
+        found.qty = (Number(found.qty) || 0) + qty;
+      } else {
+        items.push({
+          id: id,
+          name: String(fd.get("name") || "Farm product"),
+          price: parseFloat(fd.get("price")) || 0,
+          image: String(fd.get("image") || ""),
+          href: "product-" + id + ".html",
+          qty: qty
+        });
+      }
+      setCart(items);
+      window.location.href = "cart.html";
+    });
+  });
+
+  function renderCart() {
+    var root = document.getElementById("cart-root");
+    if (!root) return;
+    var items = getCart();
+    if (!items.length) {
+      root.innerHTML = '<div class="cart-empty"><p class="text-muted">Your cart is empty.</p><a href="shop.html" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-fg hover:opacity-90 h-11 px-5 mt-6">Shop the farm</a></div>';
+      return;
+    }
+    var rows = items.map(function (item, index) {
+      return '<article class="cart-row" data-index="' + index + '">' +
+        '<img src="' + escapeHtml(item.image) + '" alt="">' +
+        '<div><a href="' + escapeHtml(item.href || ("product-" + item.id + ".html")) + '" class="font-display text-lg font-medium">' + escapeHtml(item.name) + '</a>' +
+        '<p class="text-sm text-muted mt-1">' + money(item.price) + ' each</p>' +
+        '<label class="text-xs uppercase tracking-wider text-muted">Quantity <input class="qty-input flex h-11 rounded-md border border-border bg-card px-3 text-sm mt-1" type="number" min="1" max="99" value="' + Number(item.qty) + '" data-cart-qty="' + index + '"></label>' +
+        '<button type="button" class="text-sm text-muted mt-2 hover:opacity-80" data-cart-remove="' + index + '">Remove</button></div>' +
+        '<p class="tabular-nums font-medium">' + money(item.price * item.qty) + '</p></article>';
+    }).join("");
+    root.innerHTML = '<div class="cart-list">' + rows + '</div>' +
+      '<div class="cart-total"><p class="font-display text-2xl font-medium">Total ' + money(cartTotal(items)) + '</p>' +
+      '<a href="checkout.html" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-fg hover:opacity-90 h-11 px-5">Checkout</a></div>' +
+      '<p class="mt-4 text-sm text-muted">Prototype only — no card is charged. Call 719-206-HEMP to complete the order.</p>';
+
+    root.querySelectorAll("[data-cart-qty]").forEach(function (input) {
+      input.addEventListener("change", function () {
+        var i = parseInt(input.getAttribute("data-cart-qty"), 10);
+        var next = getCart();
+        var q = Math.max(1, parseInt(input.value, 10) || 1);
+        if (next[i]) next[i].qty = q;
+        setCart(next);
+        renderCart();
+      });
+    });
+    root.querySelectorAll("[data-cart-remove]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var i = parseInt(btn.getAttribute("data-cart-remove"), 10);
+        var next = getCart();
+        next.splice(i, 1);
+        setCart(next);
+        renderCart();
+      });
+    });
+  }
+  renderCart();
+
+  function renderCheckoutSummary() {
+    var root = document.getElementById("checkout-summary");
+    if (!root) return;
+    var items = getCart();
+    if (!items.length) {
+      root.innerHTML = '<p class="text-muted">Your cart is empty.</p><a href="shop.html" class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium bg-primary text-primary-fg h-11 px-5 mt-4">Shop the farm</a>';
+      var form = document.getElementById("checkout-form");
+      if (form) form.hidden = true;
+      return;
+    }
+    var lines = items.map(function (item) {
+      return '<li class="flex justify-between gap-4 py-2 border-b border-border"><span>' + escapeHtml(item.name) + ' × ' + Number(item.qty) + '</span><span class="tabular-nums">' + money(item.price * item.qty) + '</span></li>';
+    }).join("");
+    root.innerHTML = '<h2 class="font-display text-2xl font-medium">Quantity summary</h2><ul class="mt-4">' + lines + '</ul>' +
+      '<p class="mt-4 font-display text-xl font-medium">Total ' + money(cartTotal(items)) + '</p>' +
+      '<p class="mt-4 text-sm text-muted">No card is charged on this prototype. Call <a href="tel:+17192064367" class="text-primary">719-206-HEMP</a> (719-206-4367) to complete the order. Live checkout remains on the real farm store.</p>';
+  }
+  renderCheckoutSummary();
+
+  var checkoutForm = document.querySelector('form[data-preview-cart="checkout"]');
+  if (checkoutForm) {
+    checkoutForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var items = getCart();
+      if (!items.length) return;
+      var data = {};
+      new FormData(checkoutForm).forEach(function (v, k) { data[k] = v; });
+      try {
+        var orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || "[]");
+        orders.push({ at: new Date().toISOString(), contact: data, items: items, total: cartTotal(items) });
+        localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+      } catch (err) {}
+      var thanks = document.getElementById("checkout-thanks");
+      if (thanks) thanks.hidden = false;
+      alert("Prototype only — no card was charged. Call 719-206-HEMP (719-206-4367) to complete this order with Jim or Lisa.");
+    });
+  }
+
+  document.querySelectorAll("form").forEach(function (form) {
+    if (form.getAttribute("data-preview-cart")) return;
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var data = {};
       new FormData(form).forEach(function (v, k) { data[k] = v; });
       try {
-        var notes = JSON.parse(localStorage.getItem("ga-preview-notes") || "[]");
+        var notes = JSON.parse(localStorage.getItem(NOTES_KEY) || "[]");
         notes.push({ at: new Date().toISOString(), data: data });
-        localStorage.setItem("ga-preview-notes", JSON.stringify(notes));
+        localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
       } catch (err) {}
       alert("Note saved on this device. For a live order, call 719-206-HEMP.");
       form.reset();
     });
-  }
+  });
 })();
