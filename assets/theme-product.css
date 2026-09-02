@@ -66,3 +66,13 @@
   .checkout-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
 }
 .cart-empty { padding: 2rem 0; }
+
+/* Limbo Lotion Roll-On PNG includes a neon-green frame — clip it. */
+img[src*="limbo-lotion-3FLoz-Front"] {
+  transform: scale(1.12);
+  transform-origin: center center;
+}
+a[data-product-cat]:focus,
+a[data-product-cat]:focus-visible {
+  outline: none;
+}
