@@ -1,4 +1,11 @@
 (function () {
+  var extra = document.createElement("link");
+  extra.rel = "stylesheet";
+  extra.href = "assets/theme-product.css";
+  document.head.appendChild(extra);
+})();
+
+(function () {
   var media = {
     "brand/logo.png": "https://greenacreshempfarm.com/wp-content/uploads/2017/07/greenacres-hemp-farm-logo-005.png",
     "images/hero-field.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/2024-FIELD-GROW.jpg",
