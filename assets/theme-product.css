@@ -39,6 +39,11 @@ a[data-product-cat] img {
   object-fit: contain;
   object-position: center;
 }
+/* MCT Pet Tincture source still has Gmail print chrome; cover-crop to bottle only */
+img[alt="MCT Pet Tincture"] {
+  object-fit: cover !important;
+  object-position: center 42% !important;
+}
 .qty-input {
   width: 5.5rem;
   text-align: center;
@@ -78,6 +83,11 @@ a[data-product-cat] img {
   object-position: center;
   background: #f3eee3;
   border-radius: 0.5rem;
+}
+.cart-row img[alt="MCT Pet Tincture"],
+.cart-row img[src*="MCT-PET-TINCTURE"] {
+  object-fit: cover !important;
+  object-position: center 42% !important;
 }
 .cart-total {
   margin-top: 1.5rem;
