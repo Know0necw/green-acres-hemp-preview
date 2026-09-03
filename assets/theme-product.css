@@ -44,6 +44,13 @@ img[alt="MCT Pet Tincture"] {
   object-fit: cover !important;
   object-position: center 42% !important;
 }
+/* Single MCT capsules: zoom CASE-MCT-CAPS-PURPLE to one purple bottle (wholesale case page keeps full rack) */
+img.mct-single-bottle {
+  object-fit: cover !important;
+  object-position: 50% 88% !important;
+  transform: scale(5);
+  transform-origin: 50% 88%;
+}
 .qty-input {
   width: 5.5rem;
   text-align: center;
