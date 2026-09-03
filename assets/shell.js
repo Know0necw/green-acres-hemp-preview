@@ -11,7 +11,7 @@
   header.className = "sticky top-0 z-40 border-b border-border bg-bg/95 backdrop-blur-sm";
   header.innerHTML =
     '<div class="hidden items-center justify-between border-b border-border px-4 py-2 text-xs text-muted sm:flex md:px-8">' +
-    "<p>Alamosa, Colorado · 7am – 10pm Mountain, seven days a week</p>" +
+    "<p>Alamosa, Colorado · 8am – 10pm Mountain, seven days a week</p>" +
     '<a href="tel:+17192064367" class="inline-flex items-center gap-1.5 font-medium text-fg">Call Jim &amp; Lisa Strang · 719-206-HEMP</a></div>' +
     '<div class="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 md:h-[4.5rem] md:px-8">' +
     '<a href="index.html" class="flex items-center gap-3" aria-label="Green Acres Hemp Farm"><img src="' + logo + '" alt="Green Acres Hemp Farm" class="mark h-12 w-auto md:h-14"></a>' +
@@ -44,6 +44,6 @@
     '<ul class="mt-3 space-y-2 text-sm text-primary-fg/85">' +
     '<li><a href="tel:+17192064367">719-206-HEMP (719) 206-4367</a></li>' +
     '<li><a href="https://maps.google.com/?q=6344+County+Rd+116+S,+Alamosa,+CO+81101">6344 County Rd. 116 S<br>Alamosa, CO 81101</a></li>' +
-    "<li>7am – 10pm Mountain, seven days a week</li></ul></div></div>";
+    "<li>8am – 10pm Mountain, seven days a week</li></ul></div></div>";
   document.body.appendChild(footer);
 })();
