@@ -23,7 +23,6 @@
     "gallery/sunrise.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/2024-FIELD-GROW-SUNSET-SHERBERT-scaled.jpg",
     "gallery/valley.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/20160907_095111.jpg",
     "products/capsules.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2018/11/20190411_200645-1.jpg",
-    "products/gummies.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2019/03/20190302_202222.jpg",
     "products/limbo-2oz-studio.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/06/2oz-stainless-e1544376650159.jpg",
     "products/limbo-3oz-studio.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2017/01/roll-on.jpg",
     "products/lip-balm.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2017/01/20181206_082856.jpg",
@@ -53,10 +52,19 @@
   var NOTES_KEY = "ga-preview-notes";
   var ORDERS_KEY = "ga-preview-orders";
 
+  function isRetiredProduct(item) {
+    if (!item) return false;
+    var id = String(item.id || "");
+    var href = String(item.href || "");
+    return id === "cbd-gummy-bears" || href.indexOf("product-cbd-gummy-bears") !== -1;
+  }
   function getCart() {
     try {
       var items = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
-      return Array.isArray(items) ? items : [];
+      if (!Array.isArray(items)) return [];
+      var cleaned = items.filter(function (i) { return !isRetiredProduct(i); });
+      if (cleaned.length !== items.length) localStorage.setItem(CART_KEY, JSON.stringify(cleaned));
+      return cleaned;
     } catch (e) {
       return [];
     }
