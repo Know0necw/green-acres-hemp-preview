@@ -23,6 +23,7 @@
     "gallery/sunrise.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/2024-FIELD-GROW-SUNSET-SHERBERT-scaled.jpg",
     "gallery/valley.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/05/20160907_095111.jpg",
     "products/capsules.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2018/11/20190411_200645-1.jpg",
+    "products/mct-capsules.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2020/08/CASE-MCT-CAPS-PURPLE-scaled.jpg",
     "products/limbo-2oz-studio.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2015/06/2oz-stainless-e1544376650159.jpg",
     "products/limbo-3oz-studio.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2017/01/roll-on.jpg",
     "products/lip-balm.jpg": "https://greenacreshempfarm.com/wp-content/uploads/2017/01/20181206_082856.jpg",
