@@ -8,9 +8,32 @@
 }
 .product-photo {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  background: var(--bg);
+  height: 420px;
+  object-fit: contain;
+  object-position: center;
+  background: #f3eee3;
+}
+.product-detail > div:first-child {
+  background: #f3eee3;
+}
+.product-card-photo {
+  height: 320px;
+  background: #f3eee3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.product-card-photo img,
+a[data-product-cat] .product-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  background: #f3eee3;
+}
+a[data-product-cat] img {
+  object-fit: contain;
 }
 .qty-input {
   width: 5.5rem;
@@ -47,7 +70,9 @@
 .cart-row img {
   width: 5rem;
   height: 5rem;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
+  background: #f3eee3;
   border-radius: 0.5rem;
 }
 .cart-total {
@@ -67,11 +92,6 @@
 }
 .cart-empty { padding: 2rem 0; }
 
-/* Limbo Lotion Roll-On PNG includes a neon-green frame — clip it. */
-img[src*="limbo-lotion-3FLoz-Front"] {
-  transform: scale(1.12);
-  transform-origin: center center;
-}
 a[data-product-cat]:focus,
 a[data-product-cat]:focus-visible {
   outline: none;
