@@ -35,6 +35,10 @@ a[data-product-cat] .product-card-photo img {
 a[data-product-cat] img {
   object-fit: contain;
 }
+.object-contain {
+  object-fit: contain;
+  object-position: center;
+}
 .qty-input {
   width: 5.5rem;
   text-align: center;
