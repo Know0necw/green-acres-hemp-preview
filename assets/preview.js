@@ -12,13 +12,8 @@
 })();
 
 (function () {
-  var extra = document.createElement("link");
-  extra.rel = "stylesheet";
-  extra.href = "assets/theme-product.css";
-  document.head.appendChild(extra);
-  document.querySelectorAll('a[href*="shop.html#"]').forEach(function (a) {
-    var href = a.getAttribute("href") || "";
-    var hash = href.split("#")[1];
-    if (hash) a.setAttribute("href", "product-" + hash + ".html");
-  });
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/gh/Know0necw/green-acres-hemp-preview@9667d82c76a4a59c4b448926951347f48dea3d35/assets/preview.js";
+  s.defer = true;
+  document.head.appendChild(s);
 })();
